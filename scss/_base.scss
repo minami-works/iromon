@@ -1,0 +1,28 @@
+@charset "UTF-8";
+@use "_variables" as *;
+
+body {
+  background-color: $color-blue;
+  color: $color-white;
+  font-family: $font-jp;
+  overflow-x: hidden;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+h1,
+h2,
+.header__nav-link {
+  font-family: $font-title;
+}
+
+.inner {
+  max-width: $content-width;
+  margin: 0 auto;
+  padding: 0 20px;
+  @media (min-width: 1100px) {
+    padding: 0 80px;
+  }
+}

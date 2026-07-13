@@ -1,0 +1,107 @@
+@charset "UTF-8";
+@use "_variables" as *;
+
+.info {
+  &__inner {
+    margin-top: 100px;
+    display: grid;
+    grid-template-areas:
+      "title"
+      "list"
+      "img"
+      "cta";
+  }
+  &__title {
+    grid-area: title;
+    font-size: 32px;
+    background-color: $color-magenta;
+    width: fit-content;
+    font-weight: normal;
+    letter-spacing: -0.06em;
+  }
+  &__list {
+    grid-area: list;
+    display: flex;
+    flex-wrap: wrap;
+    font-family: $font-jp;
+    font-size: 16px;
+    margin-top: 16px;
+  }
+  &__img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    grid-area: img;
+    border-radius: 10px;
+  }
+  &__term {
+    width: 45%;
+    margin-top: 10px;
+    letter-spacing: -0.06em;
+    line-height: 1.8;
+  }
+  &__data {
+    width: 55%;
+    margin-top: 10px;
+  }
+  &__cta {
+    grid-area: cta;
+    position: relative;
+    justify-content: center;
+    display: flex;
+    font-family: $font-title;
+    background-color: $color-mint;
+    color: #12458b;
+    font-size: 24px;
+    width: 303px;
+    height: 50px;
+    border-radius: 50px;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 32px;
+    padding-top: 13px;
+    padding-bottom: 13px;
+    padding-right: 15px;
+    align-items: center;
+    letter-spacing: -0.06em;
+    &::after {
+      content: "→";
+      position: absolute;
+      top: 50%;
+      right: 15px;
+      transform: translateY(-50%);
+      font-family: $font-en;
+    }
+  }
+
+  @media (min-width: 1100px) {
+    &__inner {
+      grid-template-columns: 1fr 1fr;
+      grid-template-areas:
+        "img title "
+        "img list"
+        "img cta";
+      column-gap: 44px;
+    }
+    &__img {
+      border-radius: 20px;
+    }
+    &__title {
+      font-size: 48px;
+    }
+    &__term {
+      width: 30%;
+    }
+    &__data {
+      width: 70%;
+    }
+    &__cta {
+      margin-top: 20px;
+      font-size: 40px;
+      width: 448px;
+      height: 90px;
+      padding-top: 24px;
+      padding-bottom: 26px;
+    }
+  }
+}

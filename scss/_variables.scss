@@ -1,0 +1,29 @@
+/* color(基本トークン) */
+$color-blue: #1e539d;
+$color-white: #ffffff;
+$color-black: #000000;
+$color-pink: #ff8990;
+$color-yellow: #fecd00;
+$color-mint: #00ffaa;
+$color-magenta: #ff00dd;
+
+/* color(意味トークン) */
+$color-title-bg: $color-magenta;
+
+/* font */
+$font-jp: "Zen Kaku Gothic New", sans-serif;
+$font-en: "Inter", sans-serif;
+$font-title: "Dela Gothic One", sans-serif;
+
+/* space */
+$space-section-pc: 120px;
+$space-section-sp: 56px;
+$space-other-pc: 120px;
+$space-other-sp: 24px;
+
+/* layout */
+$content-width: 1280px;
+
+/* breakpoint */
+$breakpoint-tablet: 768px;
+$breakpoint-pc: 1100px;

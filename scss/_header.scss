@@ -1,0 +1,141 @@
+@charset "UTF-8";
+@use "_variables" as *;
+
+.header {
+  width: 100%;
+  position: fixed;
+  top: 0;
+  left: 0;
+  background-color: rgba($color-blue, 0.8);
+  z-index: 100;
+
+  &__cta {
+    justify-content: center;
+    display: flex;
+    min-height: 40px;
+    background-color: $color-pink;
+    border-radius: 50px;
+    font-family: $font-title;
+    align-items: center;
+    font-size: 24px;
+    padding: 8px 23px;
+    letter-spacing: -0.06em;
+    &::after {
+      content: "→";
+      margin-left: 24px;
+      font-family: $font-en;
+    }
+  }
+  &__group {
+    display: none;
+    &.is-open {
+      display: flex;
+      flex-direction: column;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100vh;
+      background-color: $color-yellow;
+      align-items: center;
+      justify-content: center;
+
+      .header__ribbon {
+        position: absolute;
+        top: 175px;
+        left: 0;
+        width: 100%;
+        z-index: -1;
+      }
+
+      .header__monster {
+        position: fixed;
+        left: 12px;
+        bottom: 0;
+        height: 191px;
+      }
+      .header__nav-list {
+        flex-direction: column;
+      }
+    }
+  }
+  &__inner {
+    margin-top: 15px;
+    margin-bottom: 19px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  &__nav-list {
+    display: flex;
+    gap: 28px;
+  }
+  &__nav-link {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    font-size: 24px;
+    align-items: center;
+    z-index: 150;
+    letter-spacing: -0.06em;
+  }
+  &__nav-sub {
+    font-size: 10px;
+    font-family: $font-jp;
+    background: $color-black;
+    font-weight: 600;
+    padding: 2px;
+    letter-spacing: -0.06em;
+  }
+  &__logo {
+    position: relative;
+    z-index: 150;
+    width: 185px;
+    height: 50px;
+  }
+  &__nav-btn {
+    position: relative;
+    z-index: 150;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    margin: 0 20px;
+  }
+  &__nav-btn span {
+    display: block;
+    width: 40px;
+    height: 2px;
+    background-color: $color-white;
+  }
+  @media (min-width: 1100px) {
+    &__inner {
+      margin-top: 10px;
+      margin-bottom: 10px;
+    }
+    &__nav-link {
+      font-size: 20px;
+    }
+    &__logo {
+      width: 233px;
+      height: 60px;
+    }
+    &__group {
+      display: flex;
+      gap: 40px;
+      align-items: center;
+    }
+
+    &__nav-btn,
+    &__ribbon,
+    &__monster {
+      display: none;
+    }
+  }
+}
+
+main {
+  margin-top: 84px;
+  @media (min-width: 768px) {
+    margin-top: 90px;
+  }
+}

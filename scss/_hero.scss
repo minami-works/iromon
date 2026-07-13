@@ -1,0 +1,220 @@
+@charset "UTF-8";
+@use "_variables" as *;
+
+.hero {
+  position: relative;
+  width: 100%;
+  max-width: $content-width;
+  margin: 0 auto;
+  margin-bottom: 88px;
+  overflow-x: clip;
+  &__inner {
+    position: relative;
+    height: 100%;
+  }
+  &__monster {
+    position: absolute;
+    z-index: 2;
+    &--red {
+      top: 77.4%;
+      left: 3%;
+      width: 38.51%;
+      height: 30.61%;
+    }
+    &--yellow {
+      top: 50%;
+      left: 80%;
+      width: 20.9%;
+      height: 14.58%;
+    }
+    &--purple {
+      top: 65%;
+      left: 80%;
+      width: 20.3%;
+      height: 15.38%;
+    }
+    &--one-eye {
+      display: none;
+    }
+  }
+  &__title,
+  &__catchcopy,
+  &__text {
+    position: relative;
+    z-index: 5;
+  }
+
+  &__item {
+    position: absolute;
+    top: 15%;
+    left: -10%;
+    width: 130%;
+    height: auto;
+    z-index: 10;
+    animation: hero-float 3s ease-in-out infinite;
+  }
+  &__ribbon--sp {
+    display: block;
+    position: absolute;
+    top: 25%;
+    left: -30%;
+    width: 166.45%;
+    height: auto;
+    z-index: 1;
+  }
+  &__ribbon--pc {
+    display: none;
+  }
+  &__ribbon-sub {
+    position: absolute;
+    top: 70%;
+    left: -25.34%;
+    width: 210%;
+    height: auto;
+    z-index: -1;
+  }
+  &__box {
+    position: relative;
+    aspect-ratio: 335/624;
+    background-color: $color-pink;
+    border: 2px solid $color-black;
+    box-shadow: inset 20px 20px 4px 0px rgba(255, 83, 83, 0.25);
+    border-radius: 40px;
+    overflow: clip;
+  }
+  &__title {
+    font-size: clamp(74px, 47.29px + 7.12vw, 101.99px);
+    padding-top: 16px;
+    padding-left: 13px;
+    padding-right: 13px;
+    letter-spacing: -0.06em;
+  }
+  &__catchcopy {
+    margin: 0;
+    margin-top: 11px;
+    margin-left: 13px;
+    display: flex;
+    width: fit-content;
+    font-family: $font-title;
+    font-size: clamp(24px, 19.42px + 1.22vw, 28.8px);
+    background-color: $color-title-bg;
+    letter-spacing: -0.06em;
+  }
+  &__catchcopy + &__catchcopy {
+    margin-top: 6px;
+  }
+  &__text {
+    width: 57.31%;
+    font-family: $font-en;
+    font-weight: normal;
+    font-size: 14px;
+    margin-top: 98.8%;
+    margin-left: 40%;
+    letter-spacing: -0.06em;
+    line-height: 1.2;
+
+    &--pc-only {
+      display: none;
+    }
+  }
+  @media (min-width: $breakpoint-tablet) {
+    margin-bottom: 120px;
+    &__box {
+      aspect-ratio: 1280/652;
+    }
+    &__title {
+      font-size: clamp(101.99px, 12.28vw, 170px);
+      margin-left: 15px;
+    }
+    &__catchcopy {
+      font-size: clamp(28.8px, 3.75vw, 48px);
+      margin-left: 33px;
+    }
+    &__catchcopy + &__catchcopy {
+      margin-top: 8px;
+    }
+    &__text {
+      font-size: 14px;
+      font-weight: normal;
+      margin: 0;
+      width: 40.18%;
+      margin-top: 12.23%;
+      margin-left: 16.07%;
+      &--pc-only {
+        display: block;
+        margin: 0;
+        margin-left: 16.07%;
+        margin-bottom: 28px;
+      }
+    }
+    &__ribbon--pc {
+      display: block;
+      position: absolute;
+      top: -1%;
+      left: -10.57%;
+      width: 118%;
+      height: auto;
+      z-index: 3;
+    }
+    &__ribbon--sp {
+      display: none;
+    }
+    &__ribbon-sub {
+      top: 47.85%;
+      left: -40%;
+      width: 156.31%;
+      height: 99.34%;
+    }
+    &__item {
+      position: absolute;
+      top: 15%;
+      left: 35.42%;
+      width: 45%;
+      height: auto;
+      z-index: 10;
+    }
+    &__monster {
+      &--red {
+        top: 51.23%;
+        left: 1%;
+        width: 18.75%;
+        height: auto;
+        z-index: 5;
+      }
+      &--yellow {
+        top: 5%;
+        left: 85%;
+        width: 17.34%;
+        height: auto;
+        z-index: 5;
+      }
+      &--purple {
+        top: 40%;
+        left: 85%;
+        width: 16.88%;
+        height: auto;
+        z-index: 5;
+      }
+      &--one-eye {
+        display: block;
+        top: 50%;
+        left: 64%;
+        width: 17%;
+        height: auto;
+        z-index: 2;
+      }
+    }
+  }
+}
+
+@keyframes hero-float {
+  0% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-20px);
+  }
+  100% {
+    transform: translateY(0);
+  }
+}
