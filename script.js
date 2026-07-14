@@ -13,9 +13,7 @@ const observer = new IntersectionObserver((entries) => {
     }
   });
 });
-document.querySelectorAll(".flavor__item").forEach(function (el) {
-  observer.observe(el);
-});
-document.querySelectorAll(".campaign__monster--pc-only").forEach(function (el) {
-  observer.observe(el);
-});
+
+document
+  .querySelectorAll(".flavor__item, .campaign__monster--pc-only")
+  .forEach((el) => observer.observe(el));
