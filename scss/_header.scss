@@ -76,13 +76,8 @@
       .header__nav-list {
         flex-direction: column;
       }
-      // 黄色背景で読めるように、メニュー内の文字は黒に
-      .header__nav-link {
-        color: $color-black;
-      }
-      .header__nav-sub {
-        color: $color-white;
-      }
+      // メニュー内の文字色はカンプ通り白
+      // ※黄色背景とのコントラスト比は約1.5:1。黒(約13.9:1)にする改善案はポートフォリオで別途提案
     }
   }
   &__inner {
@@ -127,7 +122,7 @@
     width: 185px;
     height: 50px;
   }
-  // 線の色は currentColor。開いた時だけ黒にして、黄色背景でも×が見えるように
+  // 線の色は currentColor（色は1か所で変えられる）。カンプ通り、開いた時も白
   // カンプ：30×16（線2px×3本＋間5px×2）、画面の右から20px
   &__nav-btn {
     position: relative;
@@ -148,7 +143,6 @@
     transition-timing-function: cubic-bezier(0.2, 0, 0, 1);
   }
   &__nav-btn[aria-expanded="true"] {
-    color: $color-black;
     // 真ん中の線まで「線2px＋間5px＝7px」動かして×にする
     span:nth-child(1) {
       transform: translateY(7px) rotate(45deg);
