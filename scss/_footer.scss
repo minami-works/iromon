@@ -16,6 +16,17 @@
     letter-spacing: -0.06em;
   }
 
+  // TOPへ戻るボタン：押した時に0.96へ縮む
+  &__inner a {
+    -webkit-tap-highlight-color: transparent;
+    transition-property: scale;
+    transition-duration: 150ms;
+    transition-timing-function: ease-out;
+    &:active {
+      scale: 0.96;
+    }
+  }
+
   &__img {
     width: 42px;
     height: 58px;

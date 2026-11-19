@@ -1,6 +1,18 @@
 @charset "UTF-8";
 @use "_variables" as *;
 
+html {
+  // 固定ヘッダーの分だけ、アンカーリンクの着地位置を下げる
+  scroll-padding-top: 100px;
+  @media (prefers-reduced-motion: no-preference) {
+    scroll-behavior: smooth;
+  }
+  // メニューを開いている間は背面ページをスクロールさせない
+  &.is-menu-open {
+    overflow: hidden;
+  }
+}
+
 body {
   background-color: $color-blue;
   color: $color-white;

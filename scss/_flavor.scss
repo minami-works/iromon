@@ -1,9 +1,18 @@
 @charset "UTF-8";
 @use "_variables" as *;
 
+// カードの切り替え
+//   〜767px      SPのカード（1列）
+//   768〜1099px  SPのカードを最大360pxで2列（3枚目は中央）
+//   1100〜1339px PCのカードを400px固定で2列（3枚目は中央）
+//   1340px〜     PCのカードで3列
+// ※3列で「パンチ力：＋星5つ」が入るのは約1340pxから。それより狭いと星が潰れる
+
 .flavor {
   position: relative;
   width: 100%;
+  // 飾りの星がはみ出して横スクロールが出るのを防ぐ（他のセクションと同じ）
+  overflow-x: clip;
   &__box {
     position: relative;
     max-width: $content-width;
@@ -30,8 +39,10 @@
       height: 11.22%;
     }
   }
+  // 星同士の間隔はカンプの6px（24px×5＋6px×4＝144px）
   &__star-list {
     display: flex;
+    gap: 6px;
   }
   &__star-img,
   &__star-img--gray {
@@ -39,20 +50,24 @@
     height: 24px;
   }
 
+  // 商品名と表は左揃え（カンプ準拠）
+  // margin-top：缶の画像は下16.38%が透明（缶のはみ出し部分）
+  //   → marginの%はカードの「幅」基準なので、どの幅でも写真の下端にぴったり重なる
   &__info {
     display: flex;
     flex-direction: column;
     background-color: $color-white;
-    align-items: center;
+    align-items: flex-start;
     padding: 28px;
-    margin-top: -42px;
+    margin-top: -16.38%;
   }
+  // 幅だけ%で決めて高さはauto（両方%だと縦横比が崩れる）
   &__item-monster {
     position: absolute;
     left: 5.28%;
     top: 32.9%;
     width: 20.13%;
-    height: 23.58%;
+    height: auto;
   }
   &__name {
     font-size: 32px;
@@ -92,24 +107,38 @@
     border-bottom-right-radius: 10px;
     overflow: hidden;
     position: relative;
-    opacity: 0;
-    transform: translateY(50px);
-    transition:
-      opacity 1s ease,
-      transform 1s ease;
-    &.is-visible {
-      opacity: 1;
-      transform: translateY(0);
-    }
     &-card {
       display: block;
       width: 100%;
     }
+    // フェードイン：JSが動いた時だけ隠す（JSが失敗してもカードが消えない）
+    // 300ms・12px・ぼかし4px、3枚を100msずつずらす
+    .js-anim & {
+      transition-property: opacity;
+      transition-duration: 300ms;
+      transition-timing-function: ease-out;
+      @media (prefers-reduced-motion: no-preference) {
+        transition-property: opacity, translate, filter;
+      }
+      &:nth-child(2) {
+        transition-delay: 100ms;
+      }
+      &:nth-child(3) {
+        transition-delay: 200ms;
+      }
+      &:not(.is-visible) {
+        opacity: 0;
+        @media (prefers-reduced-motion: no-preference) {
+          translate: 0 12px;
+          filter: blur(4px);
+        }
+      }
+    }
   }
+  // 星の書き始めを項目名から80pxにそろえる（カンプ準拠）
   &__rank {
     display: grid;
-    gap: 2px;
-    grid-template-columns: auto 1fr;
+    grid-template-columns: 80px auto;
     align-items: center;
   }
 
@@ -124,6 +153,36 @@
     white-space: nowrap;
     border: 0;
   }
+
+  @media (min-width: 768px) and (max-width: 1099px) {
+    &__box {
+      min-height: auto;
+      padding-bottom: 40px;
+    }
+    // カードは最大360pxで止めて中央に並べる（引き伸ばすと右側がスカスカになる）
+    &__list {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 360px));
+      justify-content: center;
+      gap: 24px;
+      align-items: start;
+    }
+    &__title {
+      font-size: 48px;
+      margin-bottom: 40px;
+    }
+    &__item {
+      width: 100%;
+      // 3枚目も上の2枚と同じ幅に（狭い時は「半分」、広い時は360px）
+      &:nth-child(3) {
+        max-width: min(360px, calc((100% - 24px) / 2));
+        justify-self: center;
+        grid-column: 1 / -1;
+      }
+    }
+  }
+
+  // PCのカード（カンプ：400×400）
   @media (min-width: 1100px) {
     &__box {
       width: 100%;
@@ -145,13 +204,13 @@
       }
     }
     &__item {
-      width: calc((100% - 80px) / 3);
+      border-bottom-left-radius: 20px;
+      border-bottom-right-radius: 20px;
     }
     &__item-monster {
       left: 3%;
       top: 56.25%;
       width: 27.25%;
-      height: 40.5%;
     }
     &__title {
       font-size: 48px;
@@ -161,44 +220,49 @@
       margin-bottom: 10px;
       font-size: 30px;
     }
+    // 左paddingの%はカードの幅基準 → 400pxのカードで133px（カンプと同じ）
+    &__info {
+      padding: 40px 20px 16px 33.25%;
+      border-bottom-left-radius: 20px;
+      border-bottom-right-radius: 20px;
+    }
+  }
+
+  // 3列だと星が潰れるので、1339pxまではPCのカードを400px固定で2列
+  @media (min-width: 1100px) and (max-width: 1339px) {
+    &__box {
+      // PCの箱は下paddingが0（min-heightで高さを確保）→ 2列だと3枚目が下端にくっつく
+      padding-bottom: 80px;
+    }
+    &__list {
+      display: grid;
+      grid-template-columns: repeat(2, 400px);
+      justify-content: center;
+      gap: 40px;
+      align-items: start;
+    }
+    &__item {
+      width: 400px;
+      &:nth-child(3) {
+        grid-column: 1 / -1;
+        justify-self: center;
+      }
+    }
+  }
+
+  @media (min-width: 1340px) {
     &__list {
       flex-direction: row;
       gap: 40px;
       align-items: flex-start;
     }
-    &__info {
-      padding: 40px 20px 16px 140px;
-      border-bottom-left-radius: 20px;
-      border-bottom-right-radius: 20px;
-      margin-top: -60px;
-    }
-  }
-
-  @media (min-width: 768px) and (max-width: 1099px) {
-    &__box {
-      min-height: auto;
-      padding-bottom: 40px;
-    }
-    &__list {
-      display: grid;
-      grid-template-columns: repeat(2, 1fr);
-      gap: 24px;
-      align-items: start;
-    }
-    &__title {
-      font-size: 48px;
-      margin-bottom: 40px;
-    }
     &__item {
-      width: 100%;
-      &:nth-child(3) {
-        max-width: calc((100% - 24px) / 2);
-        margin-inline: auto;
-        grid-column: 1 / -1;
-      }
+      width: calc((100% - 80px) / 3);
     }
-    &__info {
-      margin-top: -68px;
+    // 一番狭いところで商品名が2行に折れないよう少し縮める（1440pxで30px）
+    &__name {
+      font-size: clamp(26px, 2.08vw, 30px);
+      white-space: nowrap;
     }
   }
 }

@@ -33,6 +33,7 @@
     letter-spacing: -0.06em;
     z-index: 1;
   }
+  // 文字は中央・矢印は右端に固定（カンプ準拠）
   &__cta {
     position: relative;
     justify-content: center;
@@ -47,11 +48,12 @@
     margin-left: auto;
     margin-right: auto;
     margin-top: 32px;
-    padding-top: 13px;
-    padding-bottom: 13px;
-    padding-right: 15px;
     align-items: center;
     letter-spacing: -0.06em;
+    -webkit-tap-highlight-color: transparent;
+    transition-property: scale, background-color;
+    transition-duration: 150ms;
+    transition-timing-function: ease-out;
     &::after {
       content: "→";
       position: absolute;
@@ -59,6 +61,15 @@
       right: 15px;
       transform: translateY(-50%);
       font-family: $font-en;
+    }
+    // カンプのhover見本：青 → ピンク（マウス環境だけ）
+    @media (hover: hover) {
+      &:hover {
+        background-color: $color-pink;
+      }
+    }
+    &:active {
+      scale: 0.96;
     }
   }
   &__chance-img {
@@ -93,28 +104,40 @@
     height: 86.31%;
   }
   @media (min-width: $breakpoint-tablet) {
+    // 幅だけ%で決めて高さはauto（両方%だと縦横比が崩れる）
+    // 足元を基準にする：1440pxでカンプと同じく箱の下から35px(=10.03%)はみ出す
     &__monster--pc-only {
       position: absolute;
       display: block;
-      top: -10.03%;
+      bottom: -10.03%;
       left: -15.21%;
       width: 36.32%;
-      height: 120.06%;
-      opacity: 0;
-      transform: translateX(-50px);
-      transition:
-        opacity 1s ease,
-        transform 1s ease;
-      &.is-visible {
-        opacity: 1;
-        transform: translateX(0);
+      height: auto;
+      // フェードイン：JSが動いた時だけ隠す（300ms・12px・ぼかし4px）
+      .js-anim & {
+        transition-property: opacity;
+        transition-duration: 300ms;
+        transition-timing-function: ease-out;
+        @media (prefers-reduced-motion: no-preference) {
+          transition-property: opacity, translate, filter;
+        }
+        &:not(.is-visible) {
+          opacity: 0;
+          @media (prefers-reduced-motion: no-preference) {
+            translate: -12px 0;
+            filter: blur(4px);
+          }
+        }
       }
     }
+    // 左paddingでモンスターの分をあけ、見出し・ボタンは残りの中央へ（カンプ準拠）
+    // %は箱自身ではなく親(inner)の幅が基準 → 1440pxで134px
     &__box {
       min-height: 349px;
       width: 81.61%;
       border-radius: 40px;
       margin-left: 13.57%;
+      padding-left: 11.96%;
     }
     &__star-img {
       &--01 {
@@ -143,19 +166,20 @@
       width: 26.15%;
       height: 14.73%;
     }
+    // 画面幅に合わせて縮む（1440pxで56px＝カンプと同じ）
     &__title {
-      font-size: 56px;
+      font-size: clamp(30px, 3.89vw, 56px);
       font-weight: normal;
       margin-top: 99px;
-      margin-left: 202px;
     }
     &__cta {
       font-size: 40px;
       width: 448px;
+      max-width: calc(100% - 40px);
       height: 90px;
-      margin-left: 300px;
-      padding-top: 24px;
-      padding-bottom: 26px;
+      &::after {
+        right: 24px;
+      }
     }
   }
 }

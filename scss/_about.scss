@@ -22,12 +22,13 @@
   &__visual {
     position: relative;
   }
+  // 幅だけ%で決めて高さはauto（両方%だと縦横比が崩れる）
   &__icon {
     position: absolute;
     top: 64.91%;
     left: -7.81%;
     width: 25.83%;
-    height: 44.15%;
+    height: auto;
   }
   &__text {
     font-size: 16px;
@@ -50,9 +51,24 @@
   &__title-highlight + &__title-highlight {
     margin-top: 6px;
   }
-  @media (min-width: 768px) and (max-width: 1099px) {
+
+  // 見出しは他のセクションと同じく768pxから48px
+  @media (min-width: 768px) {
+    &__title {
+      font-size: 48px;
+    }
+    &__title-highlight + &__title-highlight {
+      margin-top: 8px;
+    }
+  }
+
+  // 黄色いモンスターは画像の下に「幅の約7.2%」はみ出す位置にいる
+  // .about は overflow-y:clip なので、余白がないと足が切れる（600〜767pxで最大51px）
+  // → はみ出し分(7.2%) ＋ セクション間の余白(SP 56px − margin-bottom 8px) を下に確保
+  // ※paddingの%は幅基準なので、画像が大きくなってもはみ出し分と同じ比率で増える
+  @media (max-width: 1099px) {
     &__inner {
-      padding-bottom: 10.23%;
+      padding-bottom: calc(7.2% + #{$space-section-sp - 8px});
     }
   }
 
@@ -68,12 +84,6 @@
       width: 495px;
       flex-shrink: 0;
     }
-    &__title {
-      font-size: 48px;
-    }
-    &__title-highlight + &__title-highlight {
-      margin-top: 8px;
-    }
     &__text {
       font-size: 18px;
       font-weight: bold;
@@ -86,7 +96,20 @@
       top: 68.09%;
       left: -7.8%;
       width: 23.4%;
-      height: 39.93%;
+    }
+  }
+
+  // 本文495px＋gap80px＋画像705px＝1280px固定なので、1280px未満だとはみ出す
+  // → この間だけ左右に余白を戻し、画像側だけ縮める（本文を縮めると見出しが変な位置で折れる）
+  // ※1299px：@mediaの幅はスクロールバー(約15px)込みなので余裕をもたせる
+  @media (min-width: 1100px) and (max-width: 1299px) {
+    &__inner {
+      padding: 0 40px;
+      gap: 40px;
+    }
+    &__visual {
+      flex-shrink: 1;
+      min-width: 0;
     }
   }
 }

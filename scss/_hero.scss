@@ -1,37 +1,41 @@
 @charset "UTF-8";
 @use "_variables" as *;
 
+// max-widthはセクションには付けない（中身の幅は .hero__inner で管理）
+// → overflow-x:clip で切る範囲が「画面幅」になり、背景の青い線が画面いっぱいに届く
 .hero {
   position: relative;
   width: 100%;
-  max-width: $content-width;
-  margin: 0 auto;
   margin-bottom: 88px;
   overflow-x: clip;
   &__inner {
     position: relative;
     height: 100%;
+    // カンプ：1440pxの画面で箱は x=80・幅1280px
+    // .inner は「最大1280px（余白80px込み）」で中身が1120pxになるので、ここだけ1440pxまで広げる
+    @media (min-width: 1100px) {
+      max-width: $content-width + 160px;
+    }
   }
+  // 幅だけ%で決めて高さはauto（両方%だと縦横比が崩れる）
   &__monster {
     position: absolute;
     z-index: 2;
+    height: auto;
     &--red {
       top: 77.4%;
       left: 3%;
       width: 38.51%;
-      height: 30.61%;
     }
     &--yellow {
       top: 50%;
       left: 80%;
       width: 20.9%;
-      height: 14.58%;
     }
     &--purple {
       top: 65%;
       left: 80%;
       width: 20.3%;
-      height: 15.38%;
     }
     &--one-eye {
       display: none;
@@ -51,7 +55,10 @@
     width: 130%;
     height: auto;
     z-index: 10;
-    animation: hero-float 3s ease-in-out infinite;
+    // 「動きを減らす」設定の人にはループさせない
+    @media (prefers-reduced-motion: no-preference) {
+      animation: hero-float 3s ease-in-out infinite;
+    }
   }
   &__ribbon--sp {
     display: block;
@@ -159,11 +166,15 @@
     &__ribbon--sp {
       display: none;
     }
+    // 線の素材(blue_ribbon.svg)は 1440×714px ＝ カンプの画面幅ちょうどで書き出されている
+    // → 画面の左端から画面幅いっぱいに置けば、どの幅でも端から端まで届く
+    //   50% - 50vw：中央寄せの .hero__inner から見た「画面の左端」の位置
+    //   height:auto：SVG本来の比率で描く（幅と高さを両方%にすると、縦横比を保つために線が短く描かれる）
     &__ribbon-sub {
       top: 47.85%;
-      left: -40%;
-      width: 156.31%;
-      height: 99.34%;
+      left: calc(50% - 50vw);
+      width: 100vw;
+      height: auto;
     }
     &__item {
       position: absolute;
